@@ -53,6 +53,7 @@ export default function FilterPriceRange({ queryConfig }) {
                                     <InputNumber
                                         ref={field.ref}
                                         value={field.value}
+                                        placeholder='đ Từ'
                                         onChange={(e) => {
                                             field.onChange(e)
                                             trigger('price_max')
@@ -69,6 +70,7 @@ export default function FilterPriceRange({ queryConfig }) {
                                 return (
                                     <InputNumber
                                         value={field.value}
+                                        placeholder='đ Đến'
                                         onChange={(e) => {
                                             field.onChange(e)
                                             trigger('price_min')
