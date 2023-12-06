@@ -1,10 +1,9 @@
 import { FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import { Box, useTheme } from '@mui/system'
-import React, { useState } from 'react'
-import ButtonCustom from '../../../../components/Button'
-import { createSearchParams, useNavigate } from 'react-router-dom'
 import { omit } from 'lodash'
-import MyButton from '../../../../components/MyButton'
+import React from 'react'
+import { createSearchParams, useNavigate } from 'react-router-dom'
+import MyButton from '../../../../../../components/MyButton'
 export default function SortProduct({ queryConfig }) {
     const { sort_by = 'createdAt', order } = queryConfig
     const navigate = useNavigate()

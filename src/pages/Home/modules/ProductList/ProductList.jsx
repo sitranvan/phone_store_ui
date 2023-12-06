@@ -7,12 +7,12 @@ import productApi from '../../../../apis/product'
 import GridProduct from '../../../../components/GridProduct'
 import ProductItem from '../../../../components/ProductItem/ProductItem'
 import useQueryParams from '../../../../hooks/useQueryParams'
-import Pagination from '../Panigation'
-import SortProduct from '../SortProduct'
+import Pagination from './modules/Panigation'
+import SortProduct from './modules/SortProduct'
 
 import brandApi from '../../../../apis/brand'
 import categoryApi from '../../../../apis/category'
-import Aside from '../Aside'
+import Aside from './modules/Aside'
 import './styles.scss'
 export default function ProductList() {
     const queryParams = useQueryParams()

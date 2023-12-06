@@ -4,9 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Typography } from '@mui/material'
 import { BiMoneyWithdraw } from 'react-icons/bi'
 import { createSearchParams, useNavigate } from 'react-router-dom'
-import InputNumber from '../../../../components/InputNumber'
-import MyButton from '../../../../components/MyButton'
-import { filterPriceSchema } from '../../../../validation/product'
+import InputNumber from '../../../../../../components/InputNumber'
+import MyButton from '../../../../../../components/MyButton'
+import { filterPriceSchema } from '../../../../../../validation/product'
 export default function FilterPriceRange({ queryConfig }) {
     const {
         control,

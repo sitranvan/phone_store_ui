@@ -3,11 +3,11 @@ import { createSearchParams, useNavigate } from 'react-router-dom'
 import { BiCategory } from 'react-icons/bi'
 import { omit } from 'lodash'
 import { TbBrandApple } from 'react-icons/tb'
-import FilterAside from '../../../../components/FilterAside'
-import LineAside from '../../../../components/LineAside/LineAside'
+import FilterAside from '../../../../../../components/FilterAside'
+import LineAside from '../../../../../../components/LineAside/LineAside'
 import FilterPriceRange from '../FilterPriceRange'
 import FilterRatingStar from '../FilterRatingStar'
-import MyButton from '../../../../components/MyButton'
+import MyButton from '../../../../../../components/MyButton'
 export default function AsideCategory({ queryConfig, categories, brands }) {
     // queryConfig vì nếu đang sort bán chạy mà chọn danh mục thì phải lọc theo danh mục đó và bán chạy
     const navigate = useNavigate()

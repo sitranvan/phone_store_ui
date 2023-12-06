@@ -33,12 +33,13 @@ export default function FilterRatingStar({ queryConfig }) {
                                     if (indexStar < 5 - index) {
                                         return (
                                             <FaStar
+                                                key={indexStar}
                                                 fontSize='14px'
                                                 color={5 - index == queryConfig.rating ? '#ee4d2d' : '#f59e0b'}
                                             />
                                         )
                                     }
-                                    return <FaStar fontSize='14px' color='#afafaf' />
+                                    return <FaStar key={indexStar} fontSize='14px' color='#afafaf' />
                                 })}
                             {index !== 0 ? (
                                 <span style={{ color: 5 - index == queryConfig.rating ? '#ee4d2d' : '#000000CC' }}>
