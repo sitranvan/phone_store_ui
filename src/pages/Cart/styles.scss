@@ -1,0 +1,118 @@
+.quantity {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    &-num {
+        font-size: 15px;
+        font-weight: 500;
+        color: rgb(20, 45, 88);
+        border-top: 1px solid #dedddd;
+        border-bottom: 1px solid #dedddd;
+    }
+
+    &>div {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+
+        &:first-child {
+            border-radius: 4px 0px 0px 4px;
+            border: 1px solid #dedddd;
+            color: white;
+            background-color: #de6666;
+            cursor: pointer;
+        }
+
+        &:last-child {
+            border-radius: 0px 4px 4px 0px;
+            border: 1px solid #dedddd;
+            background-color: #66dea0;
+            color: white;
+            cursor: pointer;
+
+
+
+        }
+    }
+}
+
+.cart-product {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    &>img {
+        border: 1px solid #f4f0f0;
+        padding: 10px;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+    }
+
+    &-content {
+        margin-left: 8px;
+    }
+
+    &-name {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 1;
+    }
+
+    &-color {
+        margin-top: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #c50e0e;
+    }
+}
+
+.cart-promotion {
+    display: flex;
+    align-items: center;
+    width: 300px;
+
+    @media screen and (max-width: 767px) {
+        width: 100%;
+    }
+
+    &-form {
+        display: flex;
+        align-items: center;
+        width: inherit;
+        position: relative;
+
+        & input {
+            padding: 14px 50px 14px 16px;
+            width: inherit;
+            border: 1px solid #dedddd;
+            border-radius: 8px;
+            outline: none;
+            color: #392f2f;
+            font-size: 14px;
+        }
+
+        & button {
+            position: absolute;
+            height: 100%;
+            top: 0;
+            right: 0;
+            border: none;
+            padding: 0 20px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            background-color: #298857;
+            cursor: pointer;
+        }
+    }
+}
+
+li {
+    list-style: none;
+}

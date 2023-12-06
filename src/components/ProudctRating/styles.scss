@@ -1,0 +1,32 @@
+.rating {
+    display: flex;
+    align-items: center;
+}
+
+.relative {
+    position: relative;
+}
+
+/* Assuming each item with class 'absolute' should be positioned relative to its closest positioned ancestor */
+.absolute {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    /* Adjust as needed */
+    overflow: hidden;
+}
+
+.active {
+    width: 0.75rem;
+    height: 0.75rem;
+    fill: #f59e0b;
+    color: #f59e0b;
+}
+
+.unactive {
+    width: 0.75rem;
+    height: 0.75rem;
+    fill: currentColor;
+    color: #afafaf;
+}

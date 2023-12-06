@@ -1,0 +1,9 @@
+.review {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+
+    @media (max-width: 767px) {
+        flex-direction: column;
+    }
+}

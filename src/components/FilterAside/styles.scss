@@ -1,0 +1,99 @@
+.filter-wrap {
+
+
+    & h4 {
+        color: #999;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        & span {
+            font-size: 15px;
+            font-weight: 500;
+
+        }
+    }
+
+    & ul {
+
+        font-size: 14px;
+
+        & li {
+            padding: 6px;
+            color: #000000CC;
+            transition: all linear 0.123s;
+            display: flex;
+            align-items: center;
+            width: 100%;
+
+            &.active-aside {
+                color: #ee4d2d;
+            }
+
+            &:hover {
+                color: #000;
+                cursor: pointer;
+            }
+
+            & input {
+                width: 80px;
+                height: 30px;
+                padding: 0 5px;
+                background-color: #fff;
+                border-radius: 0.125rem;
+                border: 1px solid rgba(0, 0, 0, .26);
+                outline: none;
+            }
+
+            &.no-pl {
+                padding-left: 0;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            & button {
+                width: 100%;
+                outline: none;
+                padding: 8px;
+                border: none;
+                border-radius: 3px;
+                background-color: #ee4d2d;
+                color: white;
+                transition: all linear 0.123s;
+
+                &:hover {
+                    opacity: 0.9 !important;
+                    cursor: pointer;
+                }
+            }
+
+            &.rating {
+                padding: 6px 10px;
+                display: flex;
+                align-items: center;
+                gap: 2px;
+                transition: all linear 0.123s;
+
+                & span {
+                    color: #000000CC;
+                    font-size: 14px;
+                    margin-left: 10px;
+                    font-weight: 500;
+                }
+
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+
+
+}
+
+.filter-link {
+    display: flex;
+    align-items: center;
+}

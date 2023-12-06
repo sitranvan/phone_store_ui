@@ -1,0 +1,19 @@
+.my-btn {
+    outline: none;
+    padding: 8px;
+    border: none;
+    border-radius: 3px;
+    background-color: #ee4d2d;
+    color: white;
+    transition: all linear 0.123s;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.85;
+    }
+
+    &.btn-active {
+        background-color: #ee4d2d !important;
+        color: white !important;
+    }
+}
