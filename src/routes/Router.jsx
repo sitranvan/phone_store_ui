@@ -3,9 +3,9 @@ import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import { AppContext } from '../contexts/App'
 import MainLayout from '../layouts/MainLayout'
 import Cart from '../pages/Cart'
-import Detail from '../pages/Detail'
 import Home from '../pages/Home'
 import Login from '../pages/Login'
+import ProductDetail from '../pages/ProductDetail'
 import Register from '../pages/Register'
 
 function ProtectedRouter() {
@@ -50,8 +50,8 @@ export default function routerElements() {
                     element: <Cart />
                 },
                 {
-                    path: 'detail/:id',
-                    element: <Detail />
+                    path: '/:nameId',
+                    element: <ProductDetail />
                 }
             ]
         }

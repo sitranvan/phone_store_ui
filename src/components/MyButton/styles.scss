@@ -7,6 +7,10 @@
     color: white;
     transition: all linear 0.123s;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: center;
 
     &:hover {
         opacity: 0.85;

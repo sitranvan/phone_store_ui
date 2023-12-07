@@ -19,7 +19,6 @@ class AxiosClient {
             (config) => {
                 if (this.accessToken) {
                     config.headers.authorization = `Bearer ${this.accessToken}`
-
                     return config
                 }
                 return config
