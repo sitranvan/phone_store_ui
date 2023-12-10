@@ -1,37 +1,19 @@
+import React from 'react'
 import { Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { useQuery } from '@tanstack/react-query'
-import { isUndefined, omitBy } from 'lodash'
-import React from 'react'
 import productApi from '../../../../apis/product'
 import GridProduct from '../../../../components/GridProduct'
 import ProductItem from '../../../../components/ProductItem/ProductItem'
-import useQueryParams from '../../../../hooks/useQueryParams'
 import Pagination from './modules/Panigation'
 import SortProduct from './modules/SortProduct'
-
 import brandApi from '../../../../apis/brand'
 import categoryApi from '../../../../apis/category'
+import useQuertConfig from '../../../../hooks/useQuertConfig'
 import Aside from './modules/Aside'
 import './styles.scss'
 export default function ProductList() {
-    const queryParams = useQueryParams()
-    // Lọc các giá trị rác URL, loại bỏ undefined bằng lodash
-    const queryConfig = omitBy(
-        {
-            page: queryParams.page || 1,
-            limit: queryParams.limit,
-            sort_by: queryParams.sort_by,
-            order: queryParams.order,
-            price_max: queryParams.price_max,
-            price_min: queryParams.price_min,
-            category: queryParams.category,
-            brand: queryParams.brand,
-            rating: queryParams.rating
-            // bổ sung
-        },
-        isUndefined
-    )
+    const queryConfig = useQuertConfig()
 
     // Get products
     const { data: producstData } = useQuery({

@@ -1,3 +1,6 @@
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 export function formatCurrency(currency) {
     return new Intl.NumberFormat('de-DE').format(currency)
 }
@@ -14,4 +17,20 @@ export const getIdFormNameId = (nameId) => {
     const arr = nameId.split('-i-')
     // Lấy id là phần tử cuối cùng
     return arr[arr.length - 1]
+}
+
+export const confirmMessage = (cb) => {
+    withReactContent(Swal).fire({
+        title: 'Bạn có chắc?',
+        text: 'Bạn có chắc chắn muốn xóa!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Có, xóa ngay!',
+        cancelButtonText: 'Không',
+        preConfirm: () => {
+            cb()
+        }
+    })
 }

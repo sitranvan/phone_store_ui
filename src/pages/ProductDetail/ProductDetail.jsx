@@ -1,25 +1,28 @@
 import { Box, Container, Divider, TextField, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { FaCartPlus } from 'react-icons/fa'
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md'
 import { useParams } from 'react-router-dom'
+import cartApi from '../../apis/cart'
 import productApi from '../../apis/product'
+import { formatCurrency, getIdFormNameId } from '../../common'
 import Breadcrumb from '../../components/Breadcrumb'
 import MyButton from '../../components/MyButton'
 import ProductRating from '../../components/ProudctRating/ProductRating'
 import Tabs from './modules/Tabs'
 import './styles.scss'
-import { formatCurrency, getIdFormNameId } from '../../common'
+import { queryClient } from '../../main'
 export default function ProductDetail() {
     const { nameId } = useParams()
     const id = getIdFormNameId(nameId)
+
     const { data: productData } = useQuery({
         queryKey: ['product', id],
         queryFn: () => productApi.getProductDetal(id)
     })
-
+    const [quantity, setQuantity] = useState(1)
     const [currentIndexImage, setCurrentIndexImage] = useState([0, 5])
     const [activeImage, setActiveImage] = useState('')
 
@@ -70,6 +73,22 @@ export default function ProductDetail() {
     // Khi duy chuyển chuột ra thì reset lại
     const handleRemoveZoom = () => {
         imageRef.current.removeAttribute('style')
+    }
+
+    // Giỏ hàng
+    const addToCartMutation = useMutation({
+        mutationFn: (body) => cartApi.addToCart(body)
+    })
+
+    const handleAddToCart = () => {
+        addToCartMutation.mutate(
+            { productId: product.id, quantity: quantity },
+            {
+                onSuccess: (data) => {
+                    queryClient.invalidateQueries({ queryKey: ['carts'] })
+                }
+            }
+        )
     }
 
     if (!product) return
@@ -210,9 +229,16 @@ export default function ProductDetail() {
                                 Số lượng
                             </Typography>
                             <Box>
-                                <TextField defaultValue={1} sx={{ width: '150px' }} size='small' type='number' />
+                                <TextField
+                                    inputProps={{ min: 1 }}
+                                    defaultValue={1}
+                                    onChange={(e) => setQuantity(e.target.value)}
+                                    sx={{ width: '150px' }}
+                                    size='small'
+                                    type='number'
+                                />
                             </Box>
-                            <MyButton fontSize='14px' mt='30px' width='200px' height='45px'>
+                            <MyButton onClick={handleAddToCart} fontSize='14px' mt='30px' width='200px' height='45px'>
                                 <FaCartPlus fontSize='18px' />
                                 Thêm vào giỏ hàng
                             </MyButton>

@@ -27,3 +27,9 @@ export const filterPriceSchema = yup
         })
     })
     .required()
+
+export const searchSchema = yup
+    .object({
+        name: yup.string().trim().required()
+    })
+    .required()

@@ -9,6 +9,9 @@ import { FaStar } from 'react-icons/fa'
 import ButtonCustom from '../../../../components/Button/ButtonCustom'
 import Textarea from '../../../../components/Textarea'
 import DOMPurify from 'dompurify'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import reviewApi from '../../../../apis/review'
+import ProductRating from '../../../../components/ProudctRating'
 
 export default function Tabs({ product }) {
     const [value, setValue] = useState('1')
@@ -16,6 +19,12 @@ export default function Tabs({ product }) {
     const handleChange = (event, newValue) => {
         setValue(newValue)
     }
+    const productId = product?.id
+
+    const { data: reviewProduct } = useQuery({
+        queryKey: ['reviews'],
+        queryFn: () => reviewApi.getReviewProduct(productId)
+    })
 
     return (
         <Box sx={{ width: '100%', mt: 6 }}>
@@ -49,7 +58,7 @@ export default function Tabs({ product }) {
                     <div className='review'>
                         <Box sx={{ textAlign: 'center' }}>
                             <ButtonCustom color='warning' variant='outlined' sx={{ mt: 3, mb: 4, py: 2, px: 4 }}>
-                                Tổng đánh giá: 5 <FaStar color='#FAAF00' />
+                                Tổng đánh giá: 5/{product.total_star[0].total_star} <FaStar color='#FAAF00' />
                             </ButtonCustom>
                         </Box>
                         <Box
@@ -80,71 +89,34 @@ export default function Tabs({ product }) {
 
                             <ButtonCustom sx={{ width: '150px', my: 3 }}>Gửi</ButtonCustom>
                             <List sx={{ width: '100%', maxWidth: 1000, bgcolor: 'background.paper' }}>
-                                <ListItem alignItems='flex-start'>
-                                    <ListItemAvatar>
-                                        <Avatar alt='Remy Sharp' src='/static/images/avatar/1.jpg' />
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary='Brunch this weekend?'
-                                        secondary={
-                                            <Fragment>
-                                                <Typography
-                                                    sx={{ display: 'inline' }}
-                                                    component='span'
-                                                    variant='body2'
-                                                    color='text.primary'
-                                                >
-                                                    Ali Connors
-                                                </Typography>
-                                                {" — I'll be in your neighborhood doing errands this…"}
-                                            </Fragment>
-                                        }
-                                    />
-                                </ListItem>
-                                <Divider variant='inset' component='li' />
-                                <ListItem alignItems='flex-start'>
-                                    <ListItemAvatar>
-                                        <Avatar alt='Travis Howard' src='/static/images/avatar/2.jpg' />
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary='Summer BBQ'
-                                        secondary={
-                                            <Fragment>
-                                                <Typography
-                                                    sx={{ display: 'inline' }}
-                                                    component='span'
-                                                    variant='body2'
-                                                    color='text.primary'
-                                                >
-                                                    to Scott, Alex, Jennifer
-                                                </Typography>
-                                                {" — Wish I could come, but I'm out of town this…"}
-                                            </Fragment>
-                                        }
-                                    />
-                                </ListItem>
-                                <Divider variant='inset' component='li' />
-                                <ListItem alignItems='flex-start'>
-                                    <ListItemAvatar>
-                                        <Avatar alt='Cindy Baker' src='/static/images/avatar/3.jpg' />
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary='Oui Oui'
-                                        secondary={
-                                            <Fragment>
-                                                <Typography
-                                                    sx={{ display: 'inline' }}
-                                                    component='span'
-                                                    variant='body2'
-                                                    color='text.primary'
-                                                >
-                                                    Sandra Adams
-                                                </Typography>
-                                                {' — Do you have Paris recommendations? Have you ever…'}
-                                            </Fragment>
-                                        }
-                                    />
-                                </ListItem>
+                                {reviewProduct?.data &&
+                                    reviewProduct?.data.map((item) => (
+                                        <Fragment key={item.id}>
+                                            <ListItem alignItems='flex-start'>
+                                                <ListItemAvatar>
+                                                    <Avatar alt='Remy Sharp' src='/static/images/avatar/1.jpg' />
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary={item.users.name}
+                                                    secondary={
+                                                        <Fragment>
+                                                            <Typography
+                                                                sx={{ display: 'inline' }}
+                                                                component='span'
+                                                                variant='body2'
+                                                                color='text.primary'
+                                                            ></Typography>
+                                                            {item.comment}
+                                                        </Fragment>
+                                                    }
+                                                />
+                                                <Box sx={{ mt: 2 }}>
+                                                    <ProductRating starSize='18' rating={item.rating} />
+                                                </Box>
+                                            </ListItem>
+                                            <Divider variant='inset' component='li' />
+                                        </Fragment>
+                                    ))}
                             </List>
                         </Box>
                     </div>

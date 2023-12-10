@@ -7,6 +7,8 @@ import Home from '../pages/Home'
 import Login from '../pages/Login'
 import ProductDetail from '../pages/ProductDetail'
 import Register from '../pages/Register'
+import Profile from '../pages/Profile'
+import Account from '../pages/Account'
 
 function ProtectedRouter() {
     const { isAuthenticated } = useContext(AppContext)
@@ -51,7 +53,27 @@ export default function routerElements() {
                 },
                 {
                     path: '/:nameId',
-                    element: <ProductDetail />
+                    element: (
+                        <MainLayout>
+                            <ProductDetail />
+                        </MainLayout>
+                    )
+                },
+                {
+                    path: '/profile',
+                    element: (
+                        <MainLayout>
+                            <Profile />
+                        </MainLayout>
+                    )
+                },
+                {
+                    path: '/account',
+                    element: (
+                        <MainLayout>
+                            <Account />
+                        </MainLayout>
+                    )
                 }
             ]
         }
