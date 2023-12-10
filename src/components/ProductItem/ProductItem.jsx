@@ -2,13 +2,14 @@ import React from 'react'
 import { Box, Typography } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import productDefault from '../../assets/images/productDefault.png'
-import { formatCurrency } from '../../common'
+import { formatCurrency, generateNameId } from '../../common'
 import ProductRating from '../ProudctRating/ProductRating'
 import './styles.scss'
-export default function ProductItem({ img, name, price, promotionPrice, rating, numberOfReviews, sold }) {
+import { Link } from 'react-router-dom'
+export default function ProductItem({ id, img, name, price, promotionPrice, rating, numberOfReviews, sold }) {
     const photo = img ? img : productDefault
     return (
-        <div className='grid-item'>
+        <Link to={`/${generateNameId(name, id)}`} className='grid-item'>
             <Paper sx={{ p: 2 }}>
                 <Box sx={{ textAlign: 'center' }}>
                     <img srcSet={photo} alt={name} width='100%' />
@@ -78,6 +79,6 @@ export default function ProductItem({ img, name, price, promotionPrice, rating, 
                     </Box>
                 </Box>
             </Paper>
-        </div>
+        </Link>
     )
 }

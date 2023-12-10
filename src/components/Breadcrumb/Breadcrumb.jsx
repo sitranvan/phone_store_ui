@@ -5,19 +5,20 @@ import Link from '@mui/material/Link'
 import HomeIcon from '@mui/icons-material/Home'
 import WhatshotIcon from '@mui/icons-material/Whatshot'
 import GrainIcon from '@mui/icons-material/Grain'
+import { Box } from '@mui/material'
 
 function handleClick(event) {
     event.preventDefault()
     console.info('You clicked a breadcrumb.')
 }
 
-export default function Breadcrumb() {
+export default function Breadcrumb({ mt = '90px' }) {
     return (
-        <div role='presentation' onClick={handleClick}>
+        <Box sx={{ mt }} role='presentation' onClick={handleClick}>
             <Breadcrumbs aria-label='breadcrumb'>
                 <Link underline='hover' sx={{ display: 'flex', alignItems: 'center' }} color='inherit' href='/'>
                     <HomeIcon sx={{ mr: 0.5 }} fontSize='inherit' />
-                    MUI
+                    Trang chủ
                 </Link>
                 <Link
                     underline='hover'
@@ -26,13 +27,13 @@ export default function Breadcrumb() {
                     href='/material-ui/getting-started/installation/'
                 >
                     <WhatshotIcon sx={{ mr: 0.5 }} fontSize='inherit' />
-                    Core
+                    Danh mục
                 </Link>
                 <Typography sx={{ display: 'flex', alignItems: 'center' }} color='text.primary'>
                     <GrainIcon sx={{ mr: 0.5 }} fontSize='inherit' />
-                    Breadcrumb
+                    Sản phẩm
                 </Typography>
             </Breadcrumbs>
-        </div>
+        </Box>
     )
 }

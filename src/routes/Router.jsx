@@ -3,10 +3,12 @@ import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import { AppContext } from '../contexts/App'
 import MainLayout from '../layouts/MainLayout'
 import Cart from '../pages/Cart'
-import Detail from '../pages/Detail'
 import Home from '../pages/Home'
 import Login from '../pages/Login'
+import ProductDetail from '../pages/ProductDetail'
 import Register from '../pages/Register'
+import Profile from '../pages/Profile'
+import Account from '../pages/Account'
 
 function ProtectedRouter() {
     const { isAuthenticated } = useContext(AppContext)
@@ -50,8 +52,28 @@ export default function routerElements() {
                     element: <Cart />
                 },
                 {
-                    path: 'detail/:id',
-                    element: <Detail />
+                    path: '/:nameId',
+                    element: (
+                        <MainLayout>
+                            <ProductDetail />
+                        </MainLayout>
+                    )
+                },
+                {
+                    path: '/profile',
+                    element: (
+                        <MainLayout>
+                            <Profile />
+                        </MainLayout>
+                    )
+                },
+                {
+                    path: '/account',
+                    element: (
+                        <MainLayout>
+                            <Account />
+                        </MainLayout>
+                    )
                 }
             ]
         }

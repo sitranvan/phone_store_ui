@@ -11,7 +11,9 @@ export default function MyButton({
     color,
     isActive,
     mt,
-    mb
+    mb,
+    fontSize,
+    icon
 }) {
     const buttonClasses = classNames('my-btn', {
         'btn-active': isActive
@@ -20,9 +22,10 @@ export default function MyButton({
         <button
             type={type}
             onClick={onClick}
-            style={{ width, height, backgroundColor, color, marginTop: mt, marginBottom: mb }}
+            style={{ width, height, backgroundColor, color, marginTop: mt, marginBottom: mb, fontSize }}
             className={buttonClasses}
         >
+            {icon}
             {children}
         </button>
     )

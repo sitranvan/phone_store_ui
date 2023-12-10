@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -7,30 +6,103 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { Box, Container } from '@mui/system'
-import Breadcrumb from '../../components/Breadcrumb'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep'
-import './styles.scss'
-import { Divider, Typography } from '@mui/material'
-import ButtonCustom from '../../components/Button/ButtonCustom'
+import { Button, Checkbox, Divider, Typography } from '@mui/material'
 import PaymentTitle from './modules/PaymentTitle'
+import { useContext, useEffect, useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import Breadcrumb from '../../components/Breadcrumb'
+import ButtonCustom from '../../components/Button/ButtonCustom'
+import { AppContext } from '../../contexts/App'
+import cartApi from '../../apis/cart'
+import './styles.scss'
+import { confirmMessage } from '../../common'
+
+const paymentCart = [
+    {
+        title: 'Tổng giỏ hàng',
+        price: '4.444.000VND'
+    },
+    {
+        title: 'Phí vận chuyển',
+        price: 'Miễn phí'
+    },
+    {
+        title: 'Khuyến mãi',
+        price: '1.000.000VNĐ'
+    }
+]
 
 export default function Cart() {
-    const paymentCart = [
-        {
-            title: 'Tổng giỏ hàng',
-            price: '4.444.000VND'
-        },
-        {
-            title: 'Phí vận chuyển',
-            price: 'Miễn phí'
-        },
-        {
-            title: 'Khuyến mãi',
-            price: '1.000.000VNĐ'
+    const { carts, handleRefetchCart } = useContext(AppContext)
+
+    const [quantities, setQuantities] = useState({})
+    useEffect(() => {
+        if (carts) {
+            const initialQuantities = {}
+            carts.forEach((cart) => {
+                initialQuantities[cart.products.id] = cart.quantity || 1
+            })
+            setQuantities(initialQuantities)
         }
-    ]
+    }, [carts])
+    const updateCartMutation = useMutation({
+        mutationFn: (body) => cartApi.updateCart(body),
+        onSuccess: () => {
+            handleRefetchCart()
+        }
+    })
+
+    const deleteProductFromCartMutation = useMutation({
+        mutationFn: (body) => cartApi.deleteProductInCart(body),
+        onSuccess: () => {
+            handleRefetchCart()
+        }
+    })
+
+    const handleQuantityChange = (productId, newQuantity) => {
+        if (!Number(newQuantity)) {
+            return
+        }
+        setQuantities((prevQuantities) => ({
+            ...prevQuantities,
+            [productId]: newQuantity
+        }))
+    }
+    const handleIncrement = (productId) => {
+        setQuantities((prevQuantities) => {
+            const currentQuantity = prevQuantities[productId] || 1
+            const newQuantity = currentQuantity + 1
+            console.log({ productId, quantity: newQuantity })
+            updateCartMutation.mutate({ productId, quantity: newQuantity })
+            return {
+                ...prevQuantities,
+                [productId]: currentQuantity + 1
+            }
+        })
+    }
+    const handleDecrement = (productId) => {
+        setQuantities((prevQuantities) => {
+            const currentQuantity = prevQuantities[productId] || 1
+            const newQuantity = currentQuantity - 1
+            updateCartMutation.mutate({ productId, quantity: newQuantity })
+            return {
+                ...prevQuantities,
+                [productId]: currentQuantity - 1
+            }
+        })
+    }
+
+    const confirmDelete = (productId) => {
+        confirmMessage(() => {
+            deleteProductFromCartMutation.mutate({ productId })
+        })
+    }
+
     return (
         <Container sx={{ mt: 2 }}>
             <Breadcrumb />
@@ -46,42 +118,69 @@ export default function Cart() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow sx={{ height: '100px', '&:last-child td, &:last-child th': { border: 0 } }}>
-                            <TableCell width='500px' component='th' scope='row'>
-                                <div className='cart-product'>
-                                    <img
-                                        srcSet='https://cdn.viettelstore.vn/Images/Product/ProductImage/1778159139.jpeg'
-                                        alt=''
-                                    />
-                                    <div className='cart-product-content'>
-                                        <span className='cart-product-name'>
-                                            Điện thoại sumsung galaxy 512GB nnđ ndnd nd d nd dmdmd md dm mmd m dmd
-                                        </span>
-                                        <p className='cart-product-color'>Màu sắc: Tím</p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                            <TableCell align='right'>
-                                <div className='quantity'>
-                                    <div className='quantity-decrement'>
-                                        <RemoveIcon />
-                                    </div>
-                                    <div className='quantity-num'>3</div>
-                                    <div className='quantity-increment'>
-                                        <AddIcon />
-                                    </div>
-                                </div>
-                            </TableCell>
-                            <TableCell align='right'>23.368.478</TableCell>
-                            <TableCell align='right'>23.368.478</TableCell>
-                            <TableCell align='right'>
-                                <DeleteSweepIcon color='error' />
-                            </TableCell>
-                        </TableRow>
+                        {carts &&
+                            carts.map((cart) => (
+                                <TableRow
+                                    key={cart.id}
+                                    sx={{ height: '100px', '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell width='500px' component='th' scope='row'>
+                                        <div className='cart-product'>
+                                            <img srcSet={cart.products.photo} alt='' />
+                                            <div className='cart-product-content'>
+                                                <span className='cart-product-name'>{cart.products.name}</span>
+                                                <p className='cart-product-color'>Màu sắc: tính sau</p>
+                                            </div>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell align='right'>
+                                        <div className='quantity'>
+                                            <div
+                                                style={{
+                                                    pointerEvents:
+                                                        cart.quantity <= 1 || updateCartMutation.isPending
+                                                            ? 'none'
+                                                            : 'auto',
+                                                    opacity:
+                                                        cart.quantity <= 1 || updateCartMutation.isPending ? 0.5 : 1
+                                                }}
+                                                onClick={(e) => handleDecrement(cart.products.id)}
+                                                className='quantity-decrement'
+                                            >
+                                                <RemoveIcon />
+                                            </div>
+                                            <input
+                                                onChange={(e) => handleQuantityChange(cart.products.id, e.target.value)}
+                                                value={quantities[cart.products.id] || 1}
+                                                min={1}
+                                                type='text'
+                                            />
+                                            <div
+                                                style={{
+                                                    pointerEvents: updateCartMutation.isPending ? 'none' : 'auto',
+                                                    opacity: updateCartMutation.isPending ? 0.5 : 1
+                                                }}
+                                                onClick={(e) => handleIncrement(cart.products.id)}
+                                                className='quantity-increment'
+                                            >
+                                                <AddIcon />
+                                            </div>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell align='right'>
+                                        {cart.products.promotionPrice || cart.products.price}
+                                    </TableCell>
+                                    <TableCell align='right'>{cart.total}</TableCell>
+                                    <TableCell align='right'>
+                                        <Button onClick={() => confirmDelete(cart.products.id)}>
+                                            <DeleteSweepIcon sx={{ width: '25px', height: '25px' }} color='error' />
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
             </TableContainer>
-
             <Box
                 sx={{
                     display: 'flex',
@@ -118,10 +217,10 @@ export default function Cart() {
                                 alignItems: 'center'
                             }}
                         >
-                            <Typography fontWeight='600' fontSize='25px' color='indigo' component='span'>
+                            <Typography fontWeight='500' fontSize='25px' color='#000000CC' component='span'>
                                 TỔNG
                             </Typography>
-                            <Typography fontWeight='600' fontSize='25px' color='indigo' component='span'>
+                            <Typography fontWeight='500' fontSize='25px' color='#000000CC' component='span'>
                                 3.444.000VNĐ
                             </Typography>
                         </Box>

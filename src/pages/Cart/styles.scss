@@ -11,12 +11,26 @@
         border-bottom: 1px solid #dedddd;
     }
 
+    & input {
+        width: 50px;
+        height: 33px;
+        border: none;
+        outline: none;
+        text-align: center;
+        font-size: 15px;
+        font-weight: 500;
+        color: rgb(20, 45, 88);
+        border-top: 1px solid #dedddd;
+        border-bottom: 1px solid #dedddd;
+    }
+
     &>div {
         width: 35px;
         height: 35px;
         display: flex;
         align-items: center;
         justify-content: center;
+
 
 
         &:first-child {
