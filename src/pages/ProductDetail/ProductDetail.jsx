@@ -1,10 +1,10 @@
 import { Box, Container, Divider, TextField, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { FaCartPlus } from 'react-icons/fa'
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import cartApi from '../../apis/cart'
 import productApi from '../../apis/product'
 import { formatCurrency, getIdFormNameId } from '../../common'
@@ -14,10 +14,12 @@ import ProductRating from '../../components/ProudctRating/ProductRating'
 import Tabs from './modules/Tabs'
 import './styles.scss'
 import { queryClient } from '../../main'
+import { AppContext } from '../../contexts/App'
 export default function ProductDetail() {
     const { nameId } = useParams()
     const id = getIdFormNameId(nameId)
-
+    const { isAuthenticated } = useContext(AppContext)
+    const navigate = useNavigate()
     const { data: productData } = useQuery({
         queryKey: ['product', id],
         queryFn: () => productApi.getProductDetal(id)
@@ -81,6 +83,10 @@ export default function ProductDetail() {
     })
 
     const handleAddToCart = () => {
+        if (!isAuthenticated) {
+            navigate('/login')
+            return
+        }
         addToCartMutation.mutate(
             { productId: product.id, quantity: quantity },
             {

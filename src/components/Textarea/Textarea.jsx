@@ -2,7 +2,7 @@ import * as React from 'react'
 import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize'
 import { styled } from '@mui/system'
 
-export default function Textarea({ widthMd = '800px', widthXs = '100%', minRows = 3, placeholder = '' }) {
+export default function Textarea({ widthMd = '800px', widthXs = '100%', minRows = 3, placeholder = '', ...rest }) {
     const Textarea = styled(BaseTextareaAutosize)(
         ({ theme }) => `
    
@@ -39,5 +39,5 @@ export default function Textarea({ widthMd = '800px', widthXs = '100%', minRows 
   `
     )
 
-    return <Textarea aria-label='minimum height' minRows={minRows} placeholder={placeholder} />
+    return <Textarea readOnly {...rest} aria-label='minimum height' minRows={minRows} placeholder={placeholder} />
 }
