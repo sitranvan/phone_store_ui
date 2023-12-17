@@ -30,6 +30,14 @@ export default function routerElements() {
             )
         },
         {
+            path: '/:nameId',
+            element: (
+                <MainLayout>
+                    <ProductDetail />
+                </MainLayout>
+            )
+        },
+        {
             path: '',
             element: <RejectedRouter />,
             children: [
@@ -40,14 +48,6 @@ export default function routerElements() {
                 {
                     path: 'register',
                     element: <Register />
-                },
-                {
-                    path: '/:nameId',
-                    element: (
-                        <MainLayout>
-                            <ProductDetail />
-                        </MainLayout>
-                    )
                 }
             ]
         },
