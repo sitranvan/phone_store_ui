@@ -39,5 +39,5 @@ export default function Textarea({ widthMd = '800px', widthXs = '100%', minRows 
   `
     )
 
-    return <Textarea readOnly {...rest} aria-label='minimum height' minRows={minRows} placeholder={placeholder} />
+    return <Textarea autoFocus {...rest} aria-label='minimum height' minRows={minRows} placeholder={placeholder} />
 }

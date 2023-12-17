@@ -1,53 +1,54 @@
+import AddIcon from '@mui/icons-material/Add'
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep'
+import RemoveIcon from '@mui/icons-material/Remove'
+import {
+    Button,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    Divider,
+    FormControlLabel,
+    FormLabel,
+    IconButton,
+    Radio,
+    RadioGroup,
+    TextField,
+    Typography
+} from '@mui/material'
+import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
 import { Box, Container } from '@mui/system'
-import AddIcon from '@mui/icons-material/Add'
-import RemoveIcon from '@mui/icons-material/Remove'
-import DeleteSweepIcon from '@mui/icons-material/DeleteSweep'
-import {
-    Button,
-    Checkbox,
-    Divider,
-    FormControl,
-    FormControlLabel,
-    FormLabel,
-    Radio,
-    RadioGroup,
-    TextField,
-    Typography
-} from '@mui/material'
-import PaymentTitle from './modules/PaymentTitle'
-import { useContext, useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import { useContext, useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import CloseIcon from '@mui/icons-material/Close'
+import cartApi from '../../apis/cart'
+import couponApi from '../../apis/coupon'
+import orderApi from '../../apis/order'
+import userApi from '../../apis/user'
+import emptyCart from '../../assets/images/empty-cart.png'
+import { confirmMessage, formatCurrency } from '../../common'
 import Breadcrumb from '../../components/Breadcrumb'
 import ButtonCustom from '../../components/Button/ButtonCustom'
-import { AppContext } from '../../contexts/App'
-import cartApi from '../../apis/cart'
-import emptyCart from '../../assets/images/empty-cart.jpg'
-import './styles.scss'
-import { confirmMessage, formatCurrency } from '../../common'
-import { Link } from 'react-router-dom'
-import couponApi from '../../apis/coupon'
-import { toast } from 'react-toastify'
-import { useDebounce } from '../../hooks/useDebounce'
-import MyDialog from '../../components/MyDialog'
-import Textarea from '../../components/Textarea'
 import MyButton from '../../components/MyButton'
-import userApi from '../../apis/user'
+import { AppContext } from '../../contexts/App'
+import { useDebounce } from '../../hooks/useDebounce'
+import './styles.scss'
 
 export default function Cart() {
     const { carts, handleRefetchCart } = useContext(AppContext)
+    const navigate = useNavigate()
     const [code, setCode] = useState('')
     const debouncedValue = useDebounce(code, 500)
-    const [couponValue, setCouponValue] = useState(0)
+    const [couponValue, setCouponValue] = useState(null)
     const [address, setAddress] = useState([])
+    const [note, setNote] = useState('')
     const [open, setOpen] = useState(false)
     const [quantities, setQuantities] = useState({})
     useEffect(() => {
@@ -165,12 +166,27 @@ export default function Cart() {
 
     // Xử lý thêm mã giảm giá vào databse
     const addCouponMutation = useMutation({
-        mutationFn: (body) => cartApi.addToCart(body)
+        mutationFn: (body) => couponApi.addCoupon(body)
+    })
+
+    // Xử lý tạo đơn hàng
+    const createOrderMutation = useMutation({
+        mutationFn: (body) => orderApi.createOrder(body)
     })
 
     // Xử lý thanh toán
-    const handlePayment = () => {
-        console.log(1)
+    const handlePayment = (e) => {
+        e.preventDefault()
+        if (code) {
+            addCouponMutation.mutate({ codeCoupon: code })
+        }
+        createOrderMutation.mutate({ note })
+        setOpen(false)
+        navigate('/profile')
+    }
+
+    const handleClose = () => {
+        setOpen(false)
     }
 
     return (
@@ -256,9 +272,10 @@ export default function Cart() {
                         </TableBody>
                     ) : (
                         <TableBody>
-                            <TableRow sx={{ display: 'flex', justifyContent: 'center' }}>
-                                <TableCell>
-                                    <img width={200} height={200} srcSet={emptyCart} alt='empty-cart' />
+                            <TableRow>
+                                <TableCell sx={{ textAlign: 'center' }} colSpan={5}>
+                                    <img width={180} height={180} srcSet={emptyCart} alt='empty-cart' />
+
                                     <Link style={{ textAlign: 'center', display: 'block' }} to='/'>
                                         <Button sx={{ mt: 2 }} variant='contained' color='primary'>
                                             Tiếp tục mua sắm
@@ -346,55 +363,111 @@ export default function Cart() {
                     </Box>
                 )}
             </Box>
-            <MyDialog title='Thông tin đặt hàng' open={open} setOpen={setOpen}>
-                <TextField fullWidth id='outlined-helperText' label='Tỉnh thành' defaultValue={address[0]?.province} />
-                <TextField
-                    sx={{ mt: 3 }}
-                    fullWidth
-                    id='outlined-helperText'
-                    inputProps={{
-                        readOnly: true
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Xác nhận thanh toán</DialogTitle>
+                <IconButton
+                    aria-label='close'
+                    onClick={handleClose}
+                    sx={{
+                        position: 'absolute',
+                        right: 8,
+                        top: 8,
+                        color: (theme) => theme.palette.grey[500]
                     }}
-                    label='Quận huyện'
-                    aria-readonly={true}
-                    defaultValue={address[0]?.district}
-                />
-                <TextField
-                    sx={{ mt: 3 }}
-                    fullWidth
-                    id='outlined-helperText'
-                    label='Phường xã'
-                    inputProps={{
-                        readOnly: true
-                    }}
-                    defaultValue={address[0]?.village}
-                />
+                >
+                    <CloseIcon />
+                </IconButton>
+                <DialogContent>
+                    <Box onSubmit={handlePayment} method='POST' component='form'>
+                        <TextField
+                            sx={{ mt: 3 }}
+                            fullWidth
+                            id='outlined-helperText'
+                            inputProps={{
+                                readOnly: true
+                            }}
+                            label='Tỉnh thành'
+                            defaultValue={address[0]?.province}
+                        />
+                        <TextField
+                            sx={{ mt: 3 }}
+                            fullWidth
+                            id='outlined-helperText'
+                            inputProps={{
+                                readOnly: true
+                            }}
+                            label='Quận huyện'
+                            aria-readonly={true}
+                            defaultValue={address[0]?.district}
+                        />
+                        <TextField
+                            sx={{ mt: 3 }}
+                            fullWidth
+                            id='outlined-helperText'
+                            label='Phường xã'
+                            inputProps={{
+                                readOnly: true
+                            }}
+                            defaultValue={address[0]?.village}
+                        />
+                        <TextField
+                            sx={{ mt: 3 }}
+                            fullWidth
+                            id='outlined-helperText'
+                            label='Số nhà, tên đường...'
+                            inputProps={{
+                                readOnly: true
+                            }}
+                            defaultValue={address[0]?.shortDescription}
+                        />
 
-                <Textarea
-                    defaultValue={address[0]?.shortDescription}
-                    readOnly
-                    sx={{ mt: 2, color: '#000' }}
-                    placeholder='Số nhà, tên đường...'
-                    widthMd
-                ></Textarea>
-                <Textarea sx={{ mt: 2 }} placeholder='Ghi chú nếu có...' widthMd></Textarea>
+                        <Box sx={{ textAlign: 'right' }}>
+                            <Button>Thay đổi địa chỉ</Button>
+                        </Box>
+                        <div className='textarea-custom'>
+                            <p>Lưu ý </p>
+                            <textarea
+                                rows={3}
+                                id='note'
+                                value={note}
+                                onChange={(e) => setNote(e.target.value)}
+                                sx={{ mb: 3 }}
+                            />
+                        </div>
 
-                <FormControl sx={{ mt: 2, ml: 2 }}>
-                    <FormLabel sx={{ fontSize: '14px', color: '#00000099' }} id='demo-row-radio-buttons-group-label'>
-                        Hình thức thanh toàn
-                    </FormLabel>
-                    <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='row-radio-buttons-group'>
-                        <FormControlLabel value='female' control={<Radio />} label='Tiền mặt' />
-                        <FormControlLabel value='male' control={<Radio />} label='Chuyển khoản' />
-                    </RadioGroup>
-                </FormControl>
-                <Typography sx={{ textAlign: 'right', my: 3, fontSize: '20px', fontWeight: '500', color: '#ee4d2d' }}>
-                    Tổng cộng: {formatCurrency(totalCart - couponValue) + 'đ'}
-                </Typography>
-                <MyButton onClick={handlePayment} mt='20px' height='40px' fontSize='16px' width='100%'>
-                    Thanh toán
-                </MyButton>
-            </MyDialog>
+                        <FormLabel
+                            sx={{ fontSize: '14px', color: '#00000099', mt: 2, ml: 2 }}
+                            id='demo-row-radio-buttons-group-label'
+                        >
+                            Hình thức thanh toàn
+                        </FormLabel>
+                        <RadioGroup
+                            row
+                            aria-labelledby='demo-row-radio-buttons-group-label'
+                            name='row-radio-buttons-group'
+                        >
+                            <FormControlLabel value='female' control={<Radio />} label='Tiền mặt' />
+                            <FormControlLabel value='male' control={<Radio />} label='Chuyển khoản' />
+                        </RadioGroup>
+
+                        <Typography
+                            sx={{ textAlign: 'right', my: 3, fontSize: '20px', fontWeight: '500', color: '#ee4d2d' }}
+                        >
+                            Tổng cộng: {formatCurrency(totalCart - couponValue) + 'đ'}
+                        </Typography>
+                        <MyButton
+                            type='submit'
+                            onClick={handlePayment}
+                            mt='20px'
+                            height='40px'
+                            fontSize='16px'
+                            width='100%'
+                        >
+                            Thanh toán
+                        </MyButton>
+                    </Box>
+                </DialogContent>
+            </Dialog>
         </Container>
     )
 }
