@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
@@ -33,4 +34,16 @@ export const confirmMessage = (cb) => {
             cb()
         }
     })
+}
+
+export const createFormData = (data) => {
+    const formData = new FormData()
+    for (const key in data) {
+        formData.append(key, data[key])
+    }
+    return formData
+}
+
+export const formatDate = (stringDate = '') => {
+    return format(new Date(stringDate), 'dd-MM-yyyy')
 }

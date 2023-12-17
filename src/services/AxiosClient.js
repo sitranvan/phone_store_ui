@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { cleanAccessToken, cleanProfile, getAccessToken, saveAccessToken, setProfile } from '../common/auth'
+import axios, { HttpStatusCode } from 'axios'
+import { cleanAccessToken, clearLS, cleanProfile, getAccessToken, saveAccessToken, setProfile } from '../common/auth'
 import { toast } from 'react-toastify'
 
 class AxiosClient {
@@ -54,6 +54,11 @@ class AxiosClient {
                 return response.data
             },
             (error) => {
+                if (error.response?.status == HttpStatusCode.Unauthorized) {
+                    clearLS()
+                    // có thể dùng window.location.reload() nhưng web là SPA mà realod lại trang thì không hay
+                }
+                console.log(error.response?.status)
                 return Promise.reject(error)
             }
         )

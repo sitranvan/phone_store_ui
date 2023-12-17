@@ -11,7 +11,9 @@ import { AppProvider } from './contexts/App'
 export const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            refetchOnWindowFocus: false
+            refetchOnWindowFocus: false,
+            // Tránh cố gắng gọi lại nhiều lần khi token hết hạn
+            retry: 0
         }
     }
 })

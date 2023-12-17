@@ -1,3 +1,4 @@
+export const LocalStorageEventTarget = new EventTarget()
 export const saveAccessToken = (accessToken) => {
     localStorage.setItem('accessToken', accessToken)
 }
@@ -18,4 +19,11 @@ export const setProfile = (profile) => {
 
 export const cleanProfile = () => {
     localStorage.removeItem('profile')
+}
+
+export const clearLS = () => {
+    cleanAccessToken()
+    cleanProfile()
+    const clearLSEvent = new Event('clearLS')
+    LocalStorageEventTarget.dispatchEvent(clearLSEvent)
 }

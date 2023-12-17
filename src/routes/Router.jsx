@@ -2,13 +2,16 @@ import React, { useContext } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import { AppContext } from '../contexts/App'
 import MainLayout from '../layouts/MainLayout'
+import Account from '../pages/Account'
 import Cart from '../pages/Cart'
 import Home from '../pages/Home'
 import Login from '../pages/Login'
 import ProductDetail from '../pages/ProductDetail'
 import Register from '../pages/Register'
-import Profile from '../pages/Profile'
-import Account from '../pages/Account'
+import UserLayout from '../pages/User/layouts/UserLayout'
+import Profile from '../pages/User/pages/Profile'
+import ChangePassword from '../pages/User/pages/ChangePassword'
+import MyOrder from '../pages/User/pages/MyOrder'
 
 function ProtectedRouter() {
     const { isAuthenticated } = useContext(AppContext)
@@ -63,15 +66,6 @@ export default function routerElements() {
                         </MainLayout>
                     )
                 },
-
-                {
-                    path: '/profile',
-                    element: (
-                        <MainLayout>
-                            <Profile />
-                        </MainLayout>
-                    )
-                },
                 {
                     path: '/account',
                     element: (
@@ -79,6 +73,28 @@ export default function routerElements() {
                             <Account />
                         </MainLayout>
                     )
+                },
+                {
+                    path: '/user',
+                    element: (
+                        <MainLayout>
+                            <UserLayout />
+                        </MainLayout>
+                    ),
+                    children: [
+                        {
+                            path: 'profile',
+                            element: <Profile />
+                        },
+                        {
+                            path: 'password',
+                            element: <ChangePassword />
+                        },
+                        {
+                            path: 'order',
+                            element: <MyOrder />
+                        }
+                    ]
                 }
             ]
         }

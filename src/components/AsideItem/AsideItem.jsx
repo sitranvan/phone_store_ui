@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, createSearchParams } from 'react-router-dom'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 import './styles.scss'
-export default function FilterAside({ data, queryConfig, title, icon, filterBy }) {
+export default function AsideItem({ data, queryConfig, title, icon, filterBy }) {
     return (
         <div className='filter-wrap'>
             <h4>

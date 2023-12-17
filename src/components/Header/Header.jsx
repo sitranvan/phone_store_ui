@@ -18,6 +18,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import userApi from '../../apis/user'
 import { AppContext } from '../../contexts/App'
 import SearchResult from './modules/SearchResult'
+import { BASE_URL_IMAGE } from '../../constants'
 
 export default function PrimarySearchAppBar() {
     const navigate = useNavigate()
@@ -45,12 +46,12 @@ export default function PrimarySearchAppBar() {
 
     const settings = [
         {
-            title: 'Thông tin cá nhân',
-            path: '/profile'
+            title: 'Tài khoản của tôi',
+            path: '/user/profile'
         },
         {
-            title: 'Tài khoản',
-            path: '/account'
+            title: 'Đơn hàng',
+            path: 'user/order'
         }
     ]
 
@@ -128,10 +129,15 @@ export default function PrimarySearchAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <Link to='/profile'>
+            <Link to='/user/profile'>
                 <MenuItem onClick={handleMenuClose}>Thông tin cá nhân</MenuItem>
             </Link>
-            <MenuItem onClick={handleMenuClose}>Đổi mật khẩu</MenuItem>
+            <Link to='/user/order'>
+                <MenuItem onClick={handleMenuClose}>Đơn hàng</MenuItem>
+            </Link>
+            <Link to='/user/password'>
+                <MenuItem onClick={handleMenuClose}>Đổi mật khẩu</MenuItem>
+            </Link>
 
             <MenuItem onClick={handleMenuClose}>Đăng xuất</MenuItem>
         </Menu>
@@ -154,14 +160,16 @@ export default function PrimarySearchAppBar() {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
-                <IconButton size='large' aria-label='show 17 new notifications' color='inherit'>
-                    <Badge badgeContent={isAuthenticated ? carts?.length || '0' : null} color='error'>
-                        <BsFillCartCheckFill />
-                    </Badge>
-                </IconButton>
-                <p>Giỏ hàng</p>
-            </MenuItem>
+            <Link to='/cart'>
+                <MenuItem>
+                    <IconButton size='large' aria-label='show 17 new notifications' color='inherit'>
+                        <Badge badgeContent={isAuthenticated ? carts?.length || '0' : null} color='error'>
+                            <BsFillCartCheckFill />
+                        </Badge>
+                    </IconButton>
+                    <p>Giỏ hàng</p>
+                </MenuItem>
+            </Link>
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
                     size='large'
@@ -261,7 +269,7 @@ export default function PrimarySearchAppBar() {
                                 <Box sx={{ flexGrow: 0, display: 'flex' }}>
                                     <Tooltip title={profile?.name}>
                                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                            <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+                                            <Avatar alt='Remy Sharp' src={BASE_URL_IMAGE + profile?.avatar} />
                                         </IconButton>
                                     </Tooltip>
                                     <Menu

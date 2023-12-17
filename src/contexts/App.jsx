@@ -11,7 +11,8 @@ const initAppContext = {
     profile: getProfile(),
     setProfile: () => null,
     carts: [],
-    setCarts: () => null
+    setCarts: () => null,
+    reset: () => null
 }
 
 export const AppProvider = ({ children }) => {
@@ -23,6 +24,11 @@ export const AppProvider = ({ children }) => {
         queryFn: () => cartApi.getCart(),
         enabled: isAuthenticated
     })
+
+    const reset = () => {
+        setIsAuthenticated(false)
+        setProfile(null)
+    }
 
     useEffect(() => {
         setCarts(cartData?.data)
@@ -45,7 +51,8 @@ export const AppProvider = ({ children }) => {
         setProfile,
         carts,
         setCarts,
-        handleRefetchCart
+        handleRefetchCart,
+        reset
     }
 
     return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>
