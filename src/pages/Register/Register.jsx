@@ -6,7 +6,6 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import authApi from '../../apis/auth'
-import { isAxiosForm } from '../../common/errorAxios'
 import ButtonCustom from '../../components/Button'
 import FormAuth from '../../components/FormAuth'
 import Input from '../../components/Input'
@@ -35,7 +34,7 @@ function Register() {
                 navigate('/login')
             },
             onError: (error) => {
-                if (isAxiosForm(error)) {
+                if (error.response?.status == 400) {
                     const formError = error.response?.data.data
                     if (formError) {
                         Object.keys(formError).forEach((key) => {

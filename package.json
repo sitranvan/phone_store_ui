@@ -24,6 +24,7 @@
     "@tanstack/react-query-devtools": "^5.13.3",
     "axios": "^1.6.2",
     "classnames": "^2.3.2",
+    "date-fns": "^2.30.0",
     "dompurify": "^3.0.6",
     "lodash": "^4.17.21",
     "npm": "^10.2.4",

@@ -420,9 +420,19 @@ export default function Cart() {
                             }}
                             defaultValue={address[0]?.shortDescription}
                         />
+                        <TextField
+                            sx={{ mt: 3 }}
+                            fullWidth
+                            id='outlined-helperText'
+                            label='Số điện thoại'
+                            inputProps={{
+                                readOnly: true
+                            }}
+                            defaultValue={address[0]?.phone}
+                        />
 
                         <Box sx={{ textAlign: 'right' }}>
-                            <Button>Thay đổi địa chỉ</Button>
+                            <Button>Cập nhật lại thông tin</Button>
                         </Box>
                         <div className='textarea-custom'>
                             <p>Lưu ý </p>

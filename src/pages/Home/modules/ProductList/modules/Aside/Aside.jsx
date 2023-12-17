@@ -3,7 +3,7 @@ import { createSearchParams, useNavigate } from 'react-router-dom'
 import { BiCategory } from 'react-icons/bi'
 import { omit } from 'lodash'
 import { TbBrandApple } from 'react-icons/tb'
-import FilterAside from '../../../../../../components/FilterAside'
+import AsideItem from '../../../../../../components/AsideItem/AsideItem'
 import LineAside from '../../../../../../components/LineAside/LineAside'
 import FilterPriceRange from '../FilterPriceRange'
 import FilterRatingStar from '../FilterRatingStar'
@@ -27,7 +27,7 @@ export default function AsideCategory({ queryConfig, categories, brands }) {
 
     return (
         <Fragment>
-            <FilterAside
+            <AsideItem
                 data={categories}
                 queryConfig={queryConfig}
                 title='Danh mục'
@@ -35,7 +35,7 @@ export default function AsideCategory({ queryConfig, categories, brands }) {
                 filterBy='category'
             />
             <LineAside />
-            <FilterAside
+            <AsideItem
                 data={brands}
                 queryConfig={queryConfig}
                 title='Thương hiệu'
