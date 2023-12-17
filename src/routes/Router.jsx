@@ -40,6 +40,14 @@ export default function routerElements() {
                 {
                     path: 'register',
                     element: <Register />
+                },
+                {
+                    path: '/:nameId',
+                    element: (
+                        <MainLayout>
+                            <ProductDetail />
+                        </MainLayout>
+                    )
                 }
             ]
         },
@@ -49,16 +57,13 @@ export default function routerElements() {
             children: [
                 {
                     path: 'cart',
-                    element: <Cart />
-                },
-                {
-                    path: '/:nameId',
                     element: (
                         <MainLayout>
-                            <ProductDetail />
+                            <Cart />
                         </MainLayout>
                     )
                 },
+
                 {
                     path: '/profile',
                     element: (

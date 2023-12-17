@@ -57,9 +57,15 @@ export default function Tabs({ product }) {
                 <TabPanel sx={{ p: 0 }} value='3'>
                     <div className='review'>
                         <Box sx={{ textAlign: 'center' }}>
-                            <ButtonCustom color='warning' variant='outlined' sx={{ mt: 3, mb: 4, py: 2, px: 4 }}>
-                                Tổng đánh giá: 5/{product.total_star[0].total_star} <FaStar color='#FAAF00' />
-                            </ButtonCustom>
+                            {product?.total_star[0]?.total_star ? (
+                                <ButtonCustom color='warning' variant='outlined' sx={{ mt: 3, mb: 4, py: 2, px: 4 }}>
+                                    Tổng đánh giá: 5/{product.total_star[0].total_star} <FaStar color='#FAAF00' />
+                                </ButtonCustom>
+                            ) : (
+                                <ButtonCustom color='warning' variant='outlined' sx={{ mt: 3, mb: 4, py: 2, px: 4 }}>
+                                    Chưa có lượt đánh giá nào
+                                </ButtonCustom>
+                            )}
                         </Box>
                         <Box
                             sx={{
