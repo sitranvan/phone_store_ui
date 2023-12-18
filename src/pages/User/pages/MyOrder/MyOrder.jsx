@@ -68,7 +68,7 @@ export default function MyOrder() {
                     </Grid>
                 </Grid>
             </Box>
-            <TableContainer component={Paper}>
+            <TableContainer sx={{ px: 2 }} component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label='simple table'>
                     <TableHead>
                         <TableRow>

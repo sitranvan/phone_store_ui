@@ -33,3 +33,12 @@ export const searchSchema = yup
         name: yup.string().trim().required()
     })
     .required()
+
+export const createProductSchema = yup
+    .object({
+        name: yup.string().trim().required('Tên sản phẩm bắt buộc nhập'),
+        price: yup.string().required('Giá tiền bắt buộc nhập'),
+        brandId: yup.string().required('Thương hiệu bắt buộc chọn'),
+        categoryId: yup.string().required('Loại sản phẩm bắt buộc chọn')
+    })
+    .required()

@@ -12,6 +12,11 @@ import UserLayout from '../pages/User/layouts/UserLayout'
 import Profile from '../pages/User/pages/Profile'
 import ChangePassword from '../pages/User/pages/ChangePassword'
 import MyOrder from '../pages/User/pages/MyOrder'
+import AdminLayout from '../layouts/AdminLayout'
+import Dashboard from '../pages/Admin/pages/Dashboard'
+import ManagerProduct from '../pages/Admin/pages/ManagerProduct'
+import CreateProduct from '../pages/Admin/pages/ManagerProduct/modules/CreateProduct'
+import UpdateProduct from '../pages/Admin/pages/ManagerProduct/modules/UpdateProduct/UpdateProduct'
 
 function ProtectedRouter() {
     const { isAuthenticated } = useContext(AppContext)
@@ -97,6 +102,38 @@ export default function routerElements() {
                     ]
                 }
             ]
+        },
+        {
+            path: 'admin',
+            element: (
+                <AdminLayout>
+                    <Dashboard />
+                </AdminLayout>
+            )
+        },
+        {
+            path: 'admin/product',
+            element: (
+                <AdminLayout>
+                    <ManagerProduct />
+                </AdminLayout>
+            )
+        },
+        {
+            path: 'admin/product/create',
+            element: (
+                <AdminLayout>
+                    <CreateProduct />
+                </AdminLayout>
+            )
+        },
+        {
+            path: 'admin/product/update/:id',
+            element: (
+                <AdminLayout>
+                    <UpdateProduct />
+                </AdminLayout>
+            )
         }
     ])
     return routerElements

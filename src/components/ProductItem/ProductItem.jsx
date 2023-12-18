@@ -6,13 +6,26 @@ import { formatCurrency, generateNameId } from '../../common'
 import ProductRating from '../ProudctRating/ProductRating'
 import './styles.scss'
 import { Link } from 'react-router-dom'
+import { BASE_URL_IMAGE } from '../../constants'
 export default function ProductItem({ id, img, name, price, promotionPrice, rating, numberOfReviews, sold }) {
-    const photo = img ? img : productDefault
+    let photo
+
+    if (img && (img.startsWith('http://') || img.startsWith('https://'))) {
+        // Nếu img bắt đầu bằng "http://" hoặc "https://", sử dụng img
+        photo = img
+    } else if (img) {
+        // Nếu có img nhưng không bắt đầu bằng "http://" hoặc "https://", sử dụng BASE_URL_IMAGE + img
+        photo = BASE_URL_IMAGE + img
+    } else {
+        // Nếu không có img, sử dụng productDefault
+        photo = productDefault
+    }
+
     return (
         <Link to={`/${generateNameId(name, id)}`} className='grid-item'>
             <Paper sx={{ p: 2 }}>
                 <Box sx={{ textAlign: 'center' }}>
-                    <img srcSet={photo} alt={name} width='100%' />
+                    <img height='147.6px' srcSet={photo} alt={name} width='100%' />
                 </Box>
                 <div className='wrap-name'>
                     <h6 className='product-name'>{name}</h6>
