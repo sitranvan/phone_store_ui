@@ -12,7 +12,7 @@ function handleClick(event) {
     console.info('You clicked a breadcrumb.')
 }
 
-export default function Breadcrumb({ mt = '90px' }) {
+export default function Breadcrumb({ mt = '90px', page = '', title = '' }) {
     return (
         <Box sx={{ mt }} role='presentation' onClick={handleClick}>
             <Breadcrumbs aria-label='breadcrumb'>
@@ -27,12 +27,14 @@ export default function Breadcrumb({ mt = '90px' }) {
                     href='/material-ui/getting-started/installation/'
                 >
                     <WhatshotIcon sx={{ mr: 0.5 }} fontSize='inherit' />
-                    Danh mục
+                    {page}
                 </Link>
-                <Typography sx={{ display: 'flex', alignItems: 'center' }} color='text.primary'>
-                    <GrainIcon sx={{ mr: 0.5 }} fontSize='inherit' />
-                    Sản phẩm
-                </Typography>
+                {title && (
+                    <Typography sx={{ display: 'flex', alignItems: 'center' }} color='text.primary'>
+                        <GrainIcon sx={{ mr: 0.5 }} fontSize='inherit' />
+                        {title}
+                    </Typography>
+                )}
             </Breadcrumbs>
         </Box>
     )

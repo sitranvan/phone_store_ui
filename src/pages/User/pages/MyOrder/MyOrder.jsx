@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom'
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import { FaShippingFast } from 'react-icons/fa'
 import orderApi from '../../../../apis/order'
-import { formatCurrency, formatDate } from '../../../../common'
+import { convertStatusOrder, formatCurrency, formatDate } from '../../../../common'
 
 export default function MyOrder() {
     const { data: ordersData } = useQuery({
@@ -95,7 +95,7 @@ export default function MyOrder() {
                                     <TableCell align='left'>{formatDate(order.createdAt)}</TableCell>
                                     <TableCell align='left'>{formatCurrency(order.finalTotal) + 'đ'}</TableCell>
                                     <TableCell align='left'>
-                                        <Button color='secondary'> {order.status}</Button>
+                                        <Button color='secondary'> {convertStatusOrder(order.status)}</Button>
                                     </TableCell>
                                     <TableCell align='left'>
                                         <Link style={{ display: 'flex', gap: 10 }}>

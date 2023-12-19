@@ -191,7 +191,7 @@ export default function Cart() {
 
     return (
         <Container sx={{ mt: 2 }}>
-            <Breadcrumb />
+            <Breadcrumb page='Giỏ hàng' />
             <TableContainer sx={{ mt: 5 }} component={Paper}>
                 <Table sx={{ minWidth: 800 }} aria-label='simple table'>
                     <TableHead>

@@ -53,11 +53,11 @@ export default function Profile() {
     useEffect(() => {
         setValue('name', profile?.name || '')
         setValue('email', profile?.email)
-        setValue('phone', profile?.address[0].phone)
-        setValue('shortDescription', profile?.address[0].shortDescription)
-        setValue('province', profile?.address[0].province)
-        setValue('district', profile?.address[0].district)
-        setValue('village', profile?.address[0].village)
+        setValue('phone', profile?.address[0]?.phone || '')
+        setValue('shortDescription', profile?.address[0]?.shortDescription || '')
+        setValue('province', profile?.address[0]?.province)
+        setValue('district', profile?.address[0]?.district)
+        setValue('village', profile?.address[0]?.village)
     }, [profile, setValue])
 
     const udpateMeMutation = useMutation({

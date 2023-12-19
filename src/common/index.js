@@ -47,3 +47,29 @@ export const createFormData = (data) => {
 export const formatDate = (stringDate = '') => {
     return format(new Date(stringDate), 'dd-MM-yyyy')
 }
+
+export const convertStatusOrder = (status) => {
+    switch (status) {
+        case 'pending':
+            return 'Chờ xác nhận'
+        case 'shipped':
+            return 'Đang giao'
+        case 'delivered':
+            return 'Đã giao'
+        case 'cancelled':
+            return 'Đã hủy'
+    }
+}
+
+export const convertUpdateStatusOrder = (status) => {
+    switch (status) {
+        case 'pending':
+            return 'Chờ xác nhận'
+        case 'shipped':
+            return 'Giao cho vận chuyển'
+        case 'delivered':
+            return 'Đã giao hàng'
+        case 'cancelled':
+            return 'Hủy đơn hàng'
+    }
+}

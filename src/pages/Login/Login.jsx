@@ -35,7 +35,11 @@ function Login() {
                 const { user } = data.data
                 setIsAuthenticated(true)
                 setProfile(user)
-                navigate('/')
+                if (user.role == 'customer') {
+                    navigate('/')
+                } else {
+                    navigate('/admin')
+                }
             },
             onError: (error) => {
                 const formError = error.response?.data.data

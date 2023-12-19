@@ -101,7 +101,7 @@ export default function ProductDetail() {
 
     return (
         <Container sx={{ mt: 2 }}>
-            <Breadcrumb />
+            <Breadcrumb page='Chi tiết' title={product.name} />
             <Box sx={{ mt: 2, background: '#fff', borderRadius: '5px', p: 3 }}>
                 <Grid direction='row' justifyContent='center' alignItems='center' container spacing={5}>
                     <Grid item md={5} xs={12}>

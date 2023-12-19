@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
@@ -9,12 +9,18 @@ import Typography from '@mui/material/Typography'
 import { alpha } from '@mui/material/styles'
 import { FaRegUser } from 'react-icons/fa'
 import { TfiDashboard } from 'react-icons/tfi'
+import { TbCategoryMinus } from 'react-icons/tb'
 import { NAV } from '../../../constants/config'
+import { MdOutlinePhoneIphone } from 'react-icons/md'
 import { usePathname } from '../../../hooks/usePathname'
 import { useResponsive } from '../../../hooks/useResponsive'
+import { TbBrandApple } from 'react-icons/tb'
+import { IoMdPaperPlane } from 'react-icons/io'
+import { FaShippingFast } from 'react-icons/fa'
 import Logo from '../Logo'
 import ScrollBar from '../ScrollBar'
 import { Link } from 'react-router-dom'
+import { AppContext } from '../../../contexts/App'
 
 const navConfig = [
     {
@@ -23,17 +29,35 @@ const navConfig = [
         icon: <TfiDashboard fontSize='20px' />
     },
     {
+        title: 'Quản lý khách hàng',
+        path: '/admin/user',
+        icon: <FaRegUser fontSize='20px' />
+    },
+    {
         title: 'Quản lý sản phẩm',
         path: '/admin/product',
-        icon: <FaRegUser fontSize='20px' />
+        icon: <MdOutlinePhoneIphone fontSize='20px' />
+    },
+    {
+        title: 'Quản lý loại sản phẩm',
+        path: '/admin/category',
+        icon: <TbCategoryMinus fontSize='20px' />
+    },
+    {
+        title: 'Quản lý thương hiệu',
+        path: '/admin/brand',
+        icon: <TbBrandApple fontSize='20px' />
+    },
+    {
+        title: 'Quản lý đơn hàng',
+        path: '/admin/order',
+        icon: <FaShippingFast fontSize='20px' />
     }
 ]
 
-// ----------------------------------------------------------------------
-
 export default function Nav({ openNav, onCloseNav }) {
     const pathname = usePathname()
-
+    const { profile } = useContext(AppContext)
     const upLg = useResponsive('up', 'lg')
 
     useEffect(() => {
@@ -59,10 +83,13 @@ export default function Nav({ openNav, onCloseNav }) {
             <Avatar src={'none'} alt='photoURL' />
 
             <Box sx={{ ml: 2 }}>
-                <Typography variant='subtitle2'>Tran Va Si</Typography>
+                <Typography variant='subtitle2'>{profile?.name}</Typography>
 
                 <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-                    Supper man
+                    {profile?.role}
+                    <Link to='/'>
+                        <IoMdPaperPlane fontSize='20px' />
+                    </Link>
                 </Typography>
             </Box>
         </Box>
