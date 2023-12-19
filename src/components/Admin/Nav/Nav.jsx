@@ -39,7 +39,7 @@ const navConfig = [
         icon: <MdOutlinePhoneIphone fontSize='20px' />
     },
     {
-        title: 'Quản lý loại sản phẩm',
+        title: 'Quản lý loại điện thoại',
         path: '/admin/category',
         icon: <TbCategoryMinus fontSize='20px' />
     },

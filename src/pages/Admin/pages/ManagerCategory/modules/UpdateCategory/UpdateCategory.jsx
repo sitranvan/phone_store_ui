@@ -44,7 +44,7 @@ export default function UpdateCategory() {
     })
     return (
         <Box>
-            <TitleManager>Sửa loại sản phẩm</TitleManager>
+            <TitleManager>Sửa loại điện thoại</TitleManager>
             <Box
                 onSubmit={onSubmit}
                 component='form'
@@ -54,14 +54,14 @@ export default function UpdateCategory() {
                     <Grid item md={6} xs={12}>
                         <Box>
                             <Typography sx={{ fontSize: '15px', color: '#555555CC', mb: '5px' }} component='p'>
-                                Tên sản phẩm
+                                Tên điện thoại
                             </Typography>
                             <Input name='name' register={register} errors={errors} fullWidth size='small' />
                         </Box>
                     </Grid>
                 </Grid>
                 <Button type='submit' sx={{ mt: 2 }} variant='contained'>
-                    Cập nhật loại sản phẩm
+                    Cập nhật loại điện thoại
                 </Button>
             </Box>
         </Box>

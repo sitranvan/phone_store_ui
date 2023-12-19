@@ -30,7 +30,7 @@ export default function AsideCategory({ queryConfig, categories, brands }) {
             <AsideItem
                 data={categories}
                 queryConfig={queryConfig}
-                title='Danh mục'
+                title='Loại điện thoại'
                 icon={<BiCategory />}
                 filterBy='category'
             />

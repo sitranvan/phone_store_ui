@@ -31,7 +31,7 @@ const headCells = [
         id: 'name',
         numeric: true,
         disablePadding: false,
-        label: 'Tên loại sản phẩm'
+        label: 'Tên loại điện thoại'
     },
     {
         id: 'date',
@@ -72,7 +72,7 @@ function EnhancedTableToolbar(props) {
             }}
         >
             <Typography sx={{ flex: '1 1 100%' }} variant='h6' id='tableTitle' component='div'>
-                <TextField placeholder='Tìm kiếm loại sản phẩm' size='medium' sx={{ width: '450px' }} />
+                <TextField placeholder='Tìm kiếm loại điện thoại' size='medium' sx={{ width: '450px' }} />
             </Typography>
 
             <Tooltip title='Filter list'>
@@ -132,12 +132,12 @@ export default function ManagerCategory() {
                     }}
                 >
                     <Typography fontSize='24px' component='p'>
-                        Quản lý loại sản phẩm
+                        Quản lý loại điện thoại
                     </Typography>
                     <Link to='/admin/category/create'>
                         <Button sx={{ height: '55px' }} variant='outlined' color='success'>
                             <FaPlus style={{ marginBottom: '4px', marginRight: '5px' }} fontSize='18px' />
-                            Thêm loại sản phẩm
+                            Thêm loại điện thoại
                         </Button>
                     </Link>
                 </Box>

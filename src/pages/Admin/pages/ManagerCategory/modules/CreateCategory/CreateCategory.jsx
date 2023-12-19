@@ -34,7 +34,7 @@ export default function CreateCategory() {
     })
     return (
         <Box>
-            <TitleManager>Thêm loại sản phẩm</TitleManager>
+            <TitleManager>Thêm loại điện thoại</TitleManager>
             <Box
                 onSubmit={onSubmit}
                 component='form'
@@ -44,14 +44,14 @@ export default function CreateCategory() {
                     <Grid item md={6} xs={12}>
                         <Box>
                             <Typography sx={{ fontSize: '15px', color: '#555555CC', mb: '5px' }} component='p'>
-                                Tên loại sản phẩm
+                                Tên loại điện thoại
                             </Typography>
                             <Input name='name' register={register} errors={errors} fullWidth size='small' />
                         </Box>
                     </Grid>
                 </Grid>
                 <Button type='submit' sx={{ width: '200px', mt: 2 }} variant='contained'>
-                    Thêm loại sản phẩm
+                    Thêm loại điện thoại
                 </Button>
             </Box>
         </Box>
